@@ -2,6 +2,7 @@ import PySimpleGUI as sg
 from workWithRow import visibleRow
 from workWithRow import visibleRowUn
 from check import checkNullStr
+from testZasor import zasor
 
 class MyWindow():
     '''Переменные класса'''
@@ -93,6 +94,9 @@ class MyWindow():
             if event == self.keys['addStr']:
                 self.openStrAdd= self.addStr(self.openStrAdd, self.myRow, windowClass, values)
 
+            '''Засор'''
+            if event == self.testZasor(self.openStrAdd):
+                windowClass[self.testZasor(self.openStrAdd)].Update(zasor(values, self.openStrAdd))
 
 
 
@@ -155,5 +159,11 @@ class MyWindow():
             print('Ошибка код:', message)
             mesageMistake = self.message.get(message)
             windowsClass[self.keys['message']].Update(mesageMistake, visible=True)
+
+    '''Тестовая функция засора'''
+
+    def testZasor(self, openStrAdd):
+        c = 'res' + str(openStrAdd)
+        return c
 
 
