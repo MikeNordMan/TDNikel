@@ -1,11 +1,13 @@
 import PySimpleGUI as sg
 from workWithRow import visibleRow
 from workWithRow import visibleRowUn
+from check import checkNullStr
 
 class MyWindow():
     '''Переменные класса'''
     keys ={'exit': '-exit_', 'print': '-print-', 'delete': '-del-',
-           'addStr': '-addStr-', 'offStr': '-offStr-', 'save': '-save-'}
+           'addStr': '-addStr-', 'offStr': '-offStr-', 'save': '-save-', 'message': '-message-'}
+    message ={'No_numeral': 'Вес указан не верно', 'No_Null': 'Заполните пустые поля','Ok': 'Ok'}
 
     '''Конструктор класса'''
     def __init__(self, mainWindow):
@@ -19,14 +21,14 @@ class MyWindow():
              sg.Button('Удалить строку', key=self.keys['offStr'], visible=True),
              sg.Button('Сохранить', key=self.keys['save'], visible=True),
              sg.Button('Печать', key=self.keys['print'])],
-            [sg.Text('Иформационная строка', text_color='red', pad=(0, 10))]
+            [sg.Text('Иформационная строка', key=self.keys['message'], text_color='red',visible=False, pad=(0, 10))]
                     ]
         return colButton
 
     '''Используется при создании Layout'''
     def returnExitMesagge(self):
         exitMesagge = [
-            [sg.Text('', key='txt', size=(40, 2))],
+            [sg.Text('jlkjljlkjlkjl', key='txt', size=(40, 2))],
             [sg.Button('Закрыть Окно', key=self.keys['exit'])]
                       ]
         return exitMesagge
@@ -79,14 +81,20 @@ class MyWindow():
             if event in (None, self.keys['exit']):
                 self.colseWindow(self.mainWindow, windowClass)
                 break
+            '''Печать'''
             if event == self.keys['print']:
+               print(values)
                self.myPrint()
 
             if event == self.keys['delete']:
                self.myDelete()
 
+            '''Открытие новой строки'''
             if event == self.keys['addStr']:
-               self.openStrAdd= self.addStr(self.openStrAdd, self.myRow, windowClass)
+                self.openStrAdd= self.addStr(self.openStrAdd, self.myRow, windowClass, values)
+
+
+
 
             if event == self.keys['offStr']:
                self.openStrAdd =self.offStr(self.openStrAdd, windowClass)
@@ -108,18 +116,27 @@ class MyWindow():
         print('Удаление')
 
     '''Добавление строки'''
-    def addStr(self, openStrAdd, myRow, windowsClass):
+    def addStr(self, openStrAdd, myRow, windowsClass, values):
         print('Добавление строки')
-        openStrAdd=visibleRow(openStrAdd, myRow, windowsClass)
-        return openStrAdd
+        message = checkNullStr(self.openStrAdd, values)
+
+        if self.mesaggeMistake(message, windowsClass) == 'Ok':
+            openStrAdd=visibleRow(openStrAdd, myRow, windowsClass)
+            return openStrAdd
+        else:
+            openStrAdd = openStrAdd-1
+            openStrAdd = visibleRow(openStrAdd, myRow, windowsClass)
+            return openStrAdd
+
+
 
     '''Удаление строки'''
     def offStr(self, openStrAdd, windowsClass):
         print('Удаление строки')
         openStrAdd = visibleRowUn(openStrAdd, windowsClass)
         return openStrAdd
-    '''Функция Сохранение'''
 
+    '''Функция Сохранение'''
     def mySave(self):
         print('Сохранено')
 
@@ -128,4 +145,15 @@ class MyWindow():
             return numDok
         if numDok == 'real':
             return numDok
+
+    '''Генератор сообщений об ошибке'''
+    def mesaggeMistake(self, message, windowsClass):
+        if self.message.get(message) == 'Ok':
+            windowsClass[self.keys['message']].Update(visible=False)
+            return 'Ok'
+        else:
+            print('Ошибка код:', message)
+            mesageMistake = self.message.get(message)
+            windowsClass[self.keys['message']].Update(mesageMistake, visible=True)
+
 

@@ -7,7 +7,6 @@ def visibleRow(x,y, window): # Вход: Счетчик открытых стр�
        x=x+1
        nu='col'+str(x)
        window.Element(nu).Update(visible=True)
-       #  window.FindElement(nu).Update(visible=True)
        return x
    return x # Выход:  счетчик строк
 
