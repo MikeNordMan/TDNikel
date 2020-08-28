@@ -1,11 +1,8 @@
-'''Нихрена не получилось'''
-'''Попытка 2'''
+'''Все работает'''
 
 
-
-
-
-
+'''Функция находит разницу символов между двух строк 
+возвращает разницу в виде строки '''
 def getAvailableLetters(s, lettersGuessed):
     k = list(s)
 
@@ -17,32 +14,36 @@ def getAvailableLetters(s, lettersGuessed):
     print(''.join(k))
     return ''.join(k)
 
-def mySumm(a,b):
-    c =int(a) + int(b)
-    return str(c)
 
-def findEvent(findElement,myRow):
-
-    eventsArr=createEventsArr(myRow)
+'''Функция идентифицирует событие'''
+def findEvent(findElement, myRow):
+    eventsArr = createEventsArr(myRow)
     for i in eventsArr:
         if i == findElement:
             print('Yes', findElement)
             return findElement
 
+'''Функция создает новое значение из полученных 
+данных используя формулу вычисления засора'''
 def createVal(res,values):
     a = []
     for i in res:
         a.append(values[i])
-    res = mySumm(a[0],a[1])
+    if a[1]=='0':
+        res = a[0]
+    else :
+        res = sumP(int(a[0]), int(a[1]))
+
     return res
 
-def abcd(findElement,window,values):
-    print('Функция ABCD - запущена')
-    s = getAvailableLetters(findElement, 'vesN')
+'''Функция выводит в поле "засор" вычисленные данные '''
+def zasor(findElement,window,values,valuesKeys):
+
+    s = getAvailableLetters(findElement, 'res')
     res = []
     for i in valuesKeys:
         res.append(i + s)
-    a = createVal(res,values)
+    a = createVal(res, values)
     window[findElement].Update(a)
     return res
 
@@ -51,12 +52,12 @@ def abcd(findElement,window,values):
 def createEventsArr(myRow):
     eventsArr = []
     for i in range(myRow):
-        eventsArr.append(myRow + str(i))
+        eventsArr.append('res' + str(i))
     print(eventsArr)
     return eventsArr
 
 
-
+'''Функция содержит формулу расчета засора '''
 def sumP(a, b):  # Функция расчета засора
-    c=a*(100-b)/100
+    c = int(a*(100-b)/100)
     return c

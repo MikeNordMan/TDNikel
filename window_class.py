@@ -2,7 +2,7 @@ import PySimpleGUI as sg
 from workWithRow import visibleRow
 from workWithRow import visibleRowUn
 from check import checkNullStr
-from testZasor import abcd, findEvent
+from testZasor import zasor, findEvent
 
 class MyWindow():
     '''Переменные класса'''
@@ -97,9 +97,9 @@ class MyWindow():
                 self.openStrAdd= self.addStr(self.openStrAdd, self.myRow, windowClass, values)
 
             '''Засор'''
-            if event == findEvent(event):
+            if event == findEvent(event, self.myRow):
                 print('Работаем')
-                abcd(event)
+                zasor(event, windowClass, values, self.valuesKeys)
 
 
 
