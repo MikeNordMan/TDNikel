@@ -2,13 +2,15 @@ import PySimpleGUI as sg
 from workWithRow import visibleRow
 from workWithRow import visibleRowUn
 from check import checkNullStr
-from testZasor import zasor
+from testZasor import abcd, findEvent
 
 class MyWindow():
     '''Переменные класса'''
     keys ={'exit': '-exit_', 'print': '-print-', 'delete': '-del-',
            'addStr': '-addStr-', 'offStr': '-offStr-', 'save': '-save-', 'message': '-message-'}
     message ={'No_numeral': 'Вес указан не верно', 'No_Null': 'Заполните пустые поля','Ok': 'Ok'}
+    valuesKeys = ['ves', '-zasor-']
+
 
     '''Конструктор класса'''
     def __init__(self, mainWindow):
@@ -95,8 +97,9 @@ class MyWindow():
                 self.openStrAdd= self.addStr(self.openStrAdd, self.myRow, windowClass, values)
 
             '''Засор'''
-            if event == self.testZasor(self.openStrAdd):
-                windowClass[self.testZasor(self.openStrAdd)].Update(zasor(values, self.openStrAdd))
+            if event == findEvent(event):
+                print('Работаем')
+                abcd(event)
 
 
 
@@ -131,6 +134,7 @@ class MyWindow():
             openStrAdd = openStrAdd-1
             openStrAdd = visibleRow(openStrAdd, myRow, windowsClass)
             return openStrAdd
+
 
 
 

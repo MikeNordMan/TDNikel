@@ -1,30 +1,61 @@
 '''Нихрена не получилось'''
+'''Попытка 2'''
 
 
-def zasor(values, openStrAdd):
-    ob = objectCreate(openStrAdd)
-    a = int(values.get(ob[0]))
-    print(a)
-    b = int(values.get(ob[1]))
-    print(b)
-    print(a+b)
-    if b==0:
-        res = str(a)
-        return res
-    else:
-        res =str(sumP(a,b))
 
-    #res =100
-        return res
 
-'''Функция создает объекты для вычисления засора'''
-def objectCreate(openStrAdd):
-    arrObject = []
-    nameObj =['ves', '-zasor-']
-    for i in nameObj:
-        arrObject.append(i+str(openStrAdd))
-    print('Созданный объект', arrObject)
-    return arrObject
+
+
+def getAvailableLetters(s, lettersGuessed):
+    k = list(s)
+
+    for c in lettersGuessed:
+        try:
+            k.remove(c)
+        except ValueError:
+            pass
+    print(''.join(k))
+    return ''.join(k)
+
+def mySumm(a,b):
+    c =int(a) + int(b)
+    return str(c)
+
+def findEvent(findElement,myRow):
+
+    eventsArr=createEventsArr(myRow)
+    for i in eventsArr:
+        if i == findElement:
+            print('Yes', findElement)
+            return findElement
+
+def createVal(res,values):
+    a = []
+    for i in res:
+        a.append(values[i])
+    res = mySumm(a[0],a[1])
+    return res
+
+def abcd(findElement,window,values):
+    print('Функция ABCD - запущена')
+    s = getAvailableLetters(findElement, 'vesN')
+    res = []
+    for i in valuesKeys:
+        res.append(i + s)
+    a = createVal(res,values)
+    window[findElement].Update(a)
+    return res
+
+
+'''функция создания массива Событий для вычисления засора'''
+def createEventsArr(myRow):
+    eventsArr = []
+    for i in range(myRow):
+        eventsArr.append(myRow + str(i))
+    print(eventsArr)
+    return eventsArr
+
+
 
 def sumP(a, b):  # Функция расчета засора
     c=a*(100-b)/100
