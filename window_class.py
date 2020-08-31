@@ -4,6 +4,7 @@ from workWithRow import visibleRowUn
 from check import checkNullStr
 from testZasor import zasor, findEvent
 
+
 class MyWindow():
     '''Переменные класса'''
     keys ={'exit': '-exit_', 'print': '-print-', 'delete': '-del-',
@@ -94,6 +95,7 @@ class MyWindow():
 
             '''Открытие новой строки'''
             if event == self.keys['addStr']:
+                ch =
                 self.openStrAdd= self.addStr(self.openStrAdd, self.myRow, windowClass, values)
 
             '''Засор'''
