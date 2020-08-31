@@ -3,14 +3,15 @@ from workWithRow import visibleRow
 from workWithRow import visibleRowUn
 from check import checkNullStr
 from testZasor import zasor, findEvent
+from try_check import Check, StrCheck
 
 
 class MyWindow():
     '''Переменные класса'''
     keys ={'exit': '-exit_', 'print': '-print-', 'delete': '-del-',
            'addStr': '-addStr-', 'offStr': '-offStr-', 'save': '-save-', 'message': '-message-'}
-    message ={'No_numeral': 'Вес указан не верно', 'No_Null': 'Заполните пустые поля','Ok': 'Ok'}
-    valuesKeys = ['ves', '-zasor-']
+   # message ={'No_numeral': 'Вес указан не верно', 'No_Null': 'Заполните пустые поля','Ok': 'Ok'}
+    valuesKeys = ['ves', '-zasor-', 'mar']
 
 
     '''Конструктор класса'''
@@ -25,7 +26,7 @@ class MyWindow():
              sg.Button('Удалить строку', key=self.keys['offStr'], visible=True),
              sg.Button('Сохранить', key=self.keys['save'], visible=True),
              sg.Button('Печать', key=self.keys['print'])],
-            [sg.Text('Иформационная строка', key=self.keys['message'], text_color='red',visible=False, pad=(0, 10))]
+            [sg.Text('Иформационная строка', key='info', text_color='red', visible=False, pad=(0, 10))]
                     ]
         return colButton
 
@@ -74,7 +75,7 @@ class MyWindow():
     '''Основная функция класса'''
     def startWindow(self):
         sg.theme(self.returnTheme())
-        windowClass =sg.Window(self.returnName(), self.returnLayout())
+        windowClass = sg.Window(self.returnName(), self.returnLayout())
         self.controlWindow(windowClass)
 
     '''Функция контроля окна'''
@@ -95,8 +96,8 @@ class MyWindow():
 
             '''Открытие новой строки'''
             if event == self.keys['addStr']:
-                ch =
-                self.openStrAdd= self.addStr(self.openStrAdd, self.myRow, windowClass, values)
+                chStr = StrCheck(windowClass, values, self.valuesKeys, self.openStrAdd)
+                self.addStr(chStr.checkObject(), windowClass)
 
             '''Засор'''
             if event == findEvent(event, self.myRow):
@@ -107,6 +108,7 @@ class MyWindow():
 
             if event == self.keys['offStr']:
                self.openStrAdd =self.offStr(self.openStrAdd, windowClass)
+
 
             if event == self.keys['save']:
                self.mySave()
@@ -125,17 +127,16 @@ class MyWindow():
         print('Удаление')
 
     '''Добавление строки'''
-    def addStr(self, openStrAdd, myRow, windowsClass, values):
-        print('Добавление строки')
-        message = checkNullStr(self.openStrAdd, values)
 
-        if self.mesaggeMistake(message, windowsClass) == 'Ok':
-            openStrAdd=visibleRow(openStrAdd, myRow, windowsClass)
-            return openStrAdd
+    def addStr(self, message, windowsClass):
+        print('Добавление строки')
+        if message == 'Ok':
+            self.openStrAdd = visibleRow(self.openStrAdd, self.myRow, windowsClass)
+            return self.openStrAdd
         else:
-            openStrAdd = openStrAdd-1
-            openStrAdd = visibleRow(openStrAdd, myRow, windowsClass)
-            return openStrAdd
+            self.openStrAdd = self.openStrAdd-1
+            self.openStrAdd = visibleRow(self.openStrAdd, self.myRow, windowsClass)
+            return self.openStrAdd
 
 
 
